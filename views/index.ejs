@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/styles.css">
+    <title>Mobile Phone Shop</title>
+</head>
+<body>
+    <div class="phone-list">
+        <h2>Mobile Phones</h2>
+        <ul>
+            <% phones.forEach(phone => { %>
+                <li>
+                    <strong><%= phone.brand %> <%= phone.model %></strong>: <%= phone.specs %>
+                    <a href="/delete/<%= phone.id %>" onclick="return confirm('Are you sure you want to delete this phone?')">Delete</a>
+                </li>
+            <% }); %>
+        </ul>
+    </div>
+
+    <div class="add-phone-form">
+        <h2>Add New Phone</h2>
+        <form action="/add-phone" method="POST">
+            <label for="brand">Brand:</label>
+            <input type="text" id="brand" name="brand" required>
+
+            <label for="model">Model:</label>
+            <input type="text" id="model" name="model" required>
+
+            <label for="specs">Specifications:</label>
+            <textarea id="specs" name="specs" required></textarea>
+
+            <button type="submit">Add Phone</button>
+        </form>
+    </div>
+</body>
+  <script>
+        // Create a new fetch request
+        fetch('/phones', {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json', // Set the Accept header to request JSON response
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Phones:', data);
+            // Handle the data as needed
+        })
+        .catch(error => console.error('Error fetching phones:', error));
+    </script>
+</html>
